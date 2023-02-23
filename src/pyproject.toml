@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "inari"
+version = "0.1.0"
+description = ""
+authors = ["Antonio Irízar <antonioirizar@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.1.7"
+django-model-utils = "^4.3.1"
+djangorestframework = "^3.14.0"
+drf-spectacular = "^0.25.1"
+psycopg2-binary = "^2.9.5"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+factory-boy = "^3.2.1"
+pytest-django = "^4.5.2"
+black = "^23.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
