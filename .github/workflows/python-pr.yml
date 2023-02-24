@@ -27,6 +27,7 @@ jobs:
     - name: Install System Dependencies
       run: |
         make ci.dependency.install.sys
+      working-directory: ${{env.working-directory}}
     - name: Check requirements are synced with Poetry
       run: |
         make ci.dependency.check_sync
