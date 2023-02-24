@@ -1,8 +1,7 @@
 ci.dependency.install.sys:
-	@sudo apt update && sudo apt install gdal-bin \
-    @python -m pip install --upgrade pip \
-    @pip install poetry \
-    @poetry config virtualenvs.create false \
+	@python -m pip install --upgrade pip
+	@pip install poetry
+	@poetry config virtualenvs.create false
 
 ci.dependency.check_sync:
 	@poetry check
