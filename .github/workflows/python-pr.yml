@@ -1,0 +1,63 @@
+name: Integrity checks
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    strategy:
+      max-parallel: 4
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+    - name: Install System Dependencies
+      run: |
+        sudo apt update && sudo apt install gdal-bin
+        python -m pip install --upgrade pip
+        pip install poetry
+        poetry config virtualenvs.create false
+    - name: Check requirements are synced with Pipfile
+      run: |
+        make dependency.check_sync
+      working-directory: ${{env.working-directory}}
+    - name: Install dependencies
+      run: |
+        poetry install
+      working-directory: ${{env.working-directory}}
+    - name: Check for missing Django migrations
+      run: |
+        python manage.py makemigrations --check
+      working-directory: ${{env.working-directory}}
+    - name: Flake8 linter
+      run: |
+        echo "Hint: Execute 'autopep8 --in-place --recursive .' for fix code style violations"
+        flake8
+      working-directory: ${{env.working-directory}}
+    - name: Test
+      run: |
+        pytest
+      working-directory: ${{env.working-directory}}
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: postgres
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      DJANGO_SETTINGS_MODULE: inari.settings.local
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      working-directory: ./src
