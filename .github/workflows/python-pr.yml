@@ -19,8 +19,6 @@ jobs:
           --health-retries 5
         ports:
           - 5432:5432
-    strategy:
-      max-parallel: 4
 
     steps:
     - uses: actions/checkout@v3
@@ -28,30 +26,26 @@ jobs:
       uses: actions/setup-python@v4
     - name: Install System Dependencies
       run: |
-        sudo apt update && sudo apt install gdal-bin
-        python -m pip install --upgrade pip
-        pip install poetry
-        poetry config virtualenvs.create false
-    - name: Check requirements are synced with Pipfile
+        make ci.dependency.install.sys
+    - name: Check requirements are synced with Poetry
       run: |
-        make dependency.check_sync
+        make ci.dependency.check_sync
       working-directory: ${{env.working-directory}}
     - name: Install dependencies
       run: |
-        poetry install
+        make ci.dependency.install
       working-directory: ${{env.working-directory}}
     - name: Check for missing Django migrations
       run: |
-        python manage.py makemigrations --check
+        make ci.migrate.check
       working-directory: ${{env.working-directory}}
-    - name: Flake8 linter
+    - name: linter
       run: |
-        echo "Hint: Execute 'autopep8 --in-place --recursive .' for fix code style violations"
-        flake8
+        make ci.linter
       working-directory: ${{env.working-directory}}
     - name: Test
       run: |
-        pytest
+        make ci.test
       working-directory: ${{env.working-directory}}
     env:
       DB_HOST: localhost
