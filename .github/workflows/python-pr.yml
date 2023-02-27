@@ -54,7 +54,7 @@ jobs:
       DB_HOST: localhost
       DB_PORT: 5432
       DB_USER: postgres
-      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      DB_PASSWORD: postgres
       DJANGO_SETTINGS_MODULE: inari.settings.local
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       working-directory: ./src
