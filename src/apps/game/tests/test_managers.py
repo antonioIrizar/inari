@@ -8,9 +8,7 @@ class GameManagerTest(TestCase):
     def test_create_game(self):
         game = models.Game.objects.create_game()
         self.assertEqual(len(game.secret_code), 4)
-        self.assertTrue(
-            all(c in settings.SECRET_CODE_CHARACTERS for c in game.secret_code)
-        )
+        self.assertTrue(all(c in settings.SECRET_CODE_CHARACTERS for c in game.secret_code))
 
     def test_create_game_custom_secret_code(self):
         secret_code = "RBWO"

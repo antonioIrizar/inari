@@ -1,10 +1,8 @@
-from .base import *
+from .base import *  # noqa: F401, F403
 import os
 
 ENVIRONMENT_NAME = "test"
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     "default": {
