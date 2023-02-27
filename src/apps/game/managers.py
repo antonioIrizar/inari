@@ -14,9 +14,7 @@ if TYPE_CHECKING:
 class GameManager(models.Manager):
     def create_game(self, secret_code: str = None, **kwargs) -> Game:
         secret_code = secret_code or "".join(
-            random.choices(
-                game_settings.SECRET_CODE_CHARACTERS, k=game_settings.SECRET_CODE_SIZE
-            )
+            random.choices(game_settings.SECRET_CODE_CHARACTERS, k=game_settings.SECRET_CODE_SIZE)
         )
 
         return self.create(secret_code=secret_code, **kwargs)

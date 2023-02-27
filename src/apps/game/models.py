@@ -25,9 +25,7 @@ class Game(AbstractTimeStampedUUID):
     )
 
     secret_code = models.CharField(max_length=game_settings.SECRET_CODE_SIZE)
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default=IN_PROGRESS
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=IN_PROGRESS)
 
     objects = managers.GameManager()
 
@@ -35,7 +33,7 @@ class Game(AbstractTimeStampedUUID):
         constraints = [
             CheckConstraint(
                 check=Q(
-                    secret_code__regex=f"^[{game_settings.SECRET_CODE_CHARACTERS}]{{{game_settings.SECRET_CODE_SIZE}}}$"
+                    secret_code__regex=f"^[{game_settings.SECRET_CODE_CHARACTERS}]{{{game_settings.SECRET_CODE_SIZE}}}$"  # noqa: E501
                 ),
                 name="secret_code_regex",
             )

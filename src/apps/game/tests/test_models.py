@@ -24,8 +24,4 @@ class GameTestCase(TransactionTestCase):
 
     def test_game_secret_code_not_have_more_size(self):
         with self.assertRaisesMessage(DataError, "value too long for type character"):
-            factories.GameFactory(
-                secret_code="".join(
-                    random.choices(SECRET_CODE_CHARACTERS, k=SECRET_CODE_SIZE + 1)
-                )
-            )
+            factories.GameFactory(secret_code="".join(random.choices(SECRET_CODE_CHARACTERS, k=SECRET_CODE_SIZE + 1)))

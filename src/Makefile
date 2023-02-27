@@ -13,7 +13,8 @@ ci.dependency.install:
 	@poetry install
 
 ci.linter:
-	@black --check .
+	@black --check -l 119 .
+	@flake8 . --count --exit-zero --max-line-length=119 --statistics
 
 ci.test:
 	@pytest
