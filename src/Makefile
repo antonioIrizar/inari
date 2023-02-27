@@ -13,7 +13,7 @@ ci.dependency.install:
 	@poetry install
 
 ci.linter:
-	@flake8
+	@black --check .
 
 ci.test:
 	@pytest
