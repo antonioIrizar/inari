@@ -1,0 +1,60 @@
+name: Integrity checks
+
+on: [pull_request]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    - name: Install System Dependencies
+      run: |
+        make ci.dependency.install.sys
+      working-directory: ${{env.working-directory}}
+    - name: Check requirements are synced with Poetry
+      run: |
+        make ci.dependency.check_sync
+      working-directory: ${{env.working-directory}}
+    - name: Install dependencies
+      run: |
+        make ci.dependency.install
+      working-directory: ${{env.working-directory}}
+    - name: Check for missing Django migrations
+      run: |
+        make ci.migrate.check
+      working-directory: ${{env.working-directory}}
+    - name: linter
+      run: |
+        make ci.linter
+      working-directory: ${{env.working-directory}}
+    - name: Test
+      run: |
+        make ci.test
+      working-directory: ${{env.working-directory}}
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DJANGO_SETTINGS_MODULE: inari.settings.local
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      working-directory: ./src
