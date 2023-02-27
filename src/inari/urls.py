@@ -29,4 +29,5 @@ urlpatterns = [
     ),
     path("redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     path("api/", include(("common.urls", "common"), namespace="common")),
+    path("api/", include(("game.urls", "game"), namespace="game")),
 ]
