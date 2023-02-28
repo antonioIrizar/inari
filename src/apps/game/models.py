@@ -1,7 +1,6 @@
 import uuid
 
 from django.db import models
-from django.db.models import CheckConstraint, Q
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
@@ -28,13 +27,3 @@ class Game(AbstractTimeStampedUUID):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=IN_PROGRESS)
 
     objects = managers.GameManager()
-
-    class Meta:
-        constraints = [
-            CheckConstraint(
-                check=Q(
-                    secret_code__regex=f"^[{game_settings.SECRET_CODE_CHARACTERS}]{{{game_settings.SECRET_CODE_SIZE}}}$"  # noqa: E501
-                ),
-                name="secret_code_regex",
-            )
-        ]

@@ -5,7 +5,7 @@ from . import models
 
 class GameSerializer(serializers.ModelSerializer):
     def create(self, validated_data: dict) -> models.Game:
-        return models.Game.objects.create_game(validated_data)
+        return models.Game.objects.create_game(**validated_data)
 
     class Meta:
         fields = (
