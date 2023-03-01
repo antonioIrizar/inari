@@ -1,11 +1,9 @@
 from __future__ import annotations
 
-import random
 from typing import TYPE_CHECKING
 
 from django.db import models, transaction
 
-from . import settings as game_settings
 from . import utils
 
 if TYPE_CHECKING:

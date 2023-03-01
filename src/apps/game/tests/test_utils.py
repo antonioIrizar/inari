@@ -1,5 +1,3 @@
-import random
-
 from django.test import TestCase
 
 from .. import settings as game_settings
