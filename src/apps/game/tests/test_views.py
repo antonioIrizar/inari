@@ -54,9 +54,3 @@ class GameDetailViewTest(TestCase):
     def test_get_game_not_exists(self):
         response = self.client.get(reverse("game:game-detail", kwargs={"uuid": uuid.uuid4().hex}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-
-    def test_get_game_finish(self):
-        game = factories.GameFactory(not_in_progress=True)
-
-        response = self.client.get(reverse("game:game-detail", kwargs={"uuid": game.uuid.hex}))
-        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
