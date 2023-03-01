@@ -41,3 +41,12 @@ class GuessSerializer(serializers.ModelSerializer):
             "position",
         )
         model = models.Guess
+
+
+class GameDetailSerializer(serializers.ModelSerializer):
+    guesses = GuessSerializer(many=True, read_only=True, source="guesses_ordered_by_position")
+
+    class Meta:
+        fields = ("uuid", "status", "max_guesses", "guesses_left", "guesses")
+        read_only_fields = fields
+        model = models.Game
