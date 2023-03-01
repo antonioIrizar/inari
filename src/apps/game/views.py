@@ -23,7 +23,7 @@ class GuessView(generics.CreateAPIView):
             uuid=self.kwargs[self.lookup_url_kwarg],
         )
 
-    def get_serializer_context(self):
+    def get_serializer_context(self) -> dict:
         context = super().get_serializer_context()
         context["game"] = self.game
         return context

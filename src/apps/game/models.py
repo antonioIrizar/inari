@@ -42,8 +42,8 @@ class Game(AbstractTimeStampedUUID):
 class Guess(TimeStampedModel):
     game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name="guesses")
     guess_code = models.CharField(max_length=game_settings.SECRET_CODE_SIZE)
-    correct_color_and_position = models.PositiveSmallIntegerField(default=0)
-    correct_color_only = models.PositiveSmallIntegerField(default=0)
+    correct_color_and_position = models.PositiveSmallIntegerField()
+    correct_color_only = models.PositiveSmallIntegerField()
     position = models.PositiveSmallIntegerField()
 
     objects = managers.GuessManager()

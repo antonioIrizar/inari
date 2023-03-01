@@ -39,4 +39,10 @@ class GuessTest(TestCase):
         with self.assertRaisesMessage(
             IntegrityError, 'duplicate key value violates unique constraint "unique_guess_position"'
         ):
-            models.Guess.objects.create(game=guess.game, position=guess.position, guess_code=utils.generate_code())
+            models.Guess.objects.create(
+                game=guess.game,
+                position=guess.position,
+                guess_code=utils.generate_code(),
+                correct_color_and_position=0,
+                correct_color_only=0,
+            )
