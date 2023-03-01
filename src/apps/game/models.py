@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import uuid
 
 from django.db import models
+from django.db.models import QuerySet
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 
@@ -37,6 +40,10 @@ class Game(AbstractTimeStampedUUID):
     @property
     def is_in_progress(self) -> bool:
         return self.status == self.IN_PROGRESS
+
+    @property
+    def guesses_ordered_by_position(self) -> QuerySet[Guess]:
+        return self.guesses.order_by("position")
 
 
 class Guess(TimeStampedModel):

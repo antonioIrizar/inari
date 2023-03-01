@@ -15,7 +15,7 @@ class GameDetailView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsGameObjectInProgress]
     lookup_url_kwarg = "uuid"
     lookup_field = "uuid"
-    serializer_class = serializers.GameSerializer
+    serializer_class = serializers.GameDetailSerializer
     queryset = models.Game
 
 
