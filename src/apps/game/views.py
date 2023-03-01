@@ -11,6 +11,14 @@ class GameView(generics.CreateAPIView):
     serializer_class = serializers.GameSerializer
 
 
+class GameDetailView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsGameObjectInProgress]
+    lookup_url_kwarg = "uuid"
+    lookup_field = "uuid"
+    serializer_class = serializers.GameSerializer
+    queryset = models.Game
+
+
 class GuessView(generics.CreateAPIView):
     permission_classes = [permissions.IsGameInProgress]
     serializer_class = serializers.GuessSerializer

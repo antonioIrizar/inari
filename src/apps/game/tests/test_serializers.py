@@ -41,3 +41,25 @@ class GuessSerializerTest(TestCase):
         serializer = serializers.GuessSerializer(instance=guess)
 
         self.assertDictEqual(serializer.data, expected)
+
+
+class GameDetailSerializerTest(TestCase):
+    def test_serializer_data(self):
+        guess = factories.GuessFactory()
+        expected = {
+            "uuid": str(guess.game.uuid),
+            "status": guess.game.status,
+            "max_guesses": guess.game.max_guesses,
+            "guesses_left": guess.game.guesses_left,
+            "guesses": [
+                {
+                    "guess_code": guess.guess_code,
+                    "correct_color_and_position": guess.correct_color_and_position,
+                    "correct_color_only": guess.correct_color_only,
+                    "position": guess.position,
+                }
+            ],
+        }
+        serializer = serializers.GameDetailSerializer(instance=guess.game)
+
+        self.assertDictEqual(serializer.data, expected)
