@@ -18,6 +18,7 @@ factory-boy = "^3.2.1"
 pytest-django = "^4.5.2"
 black = "^23.1.0"
 flake8 = "^6.0.0"
+pytest-subtests = "^0.10.0"
 
 [build-system]
 requires = ["poetry-core"]
